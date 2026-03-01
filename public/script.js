@@ -52,11 +52,6 @@ async function handleSignup() {
 // ===== AUTH =====
 let USER_ID = localStorage.getItem("studentTrackerUser");
 
-if (!USER_ID) {
-  USER_ID = "guest-" + crypto.randomUUID();
-  localStorage.setItem("studentTrackerUser", USER_ID);
-}
-
 function setUser(id) {
   USER_ID = id;
   localStorage.setItem("studentTrackerUser", id);
@@ -447,7 +442,9 @@ function renderAttendance() {
     li.innerHTML = `
   <div style="width:100%">
     <div style="display:flex;justify-content:space-between;align-items:center;">
-      <strong>${a.subject}</strong>
+      <strong onclick="openSubject('${a.subject}')" style="cursor:pointer">
+  ${a.subject}
+</strong>
       <span>${percent}%</span>
     </div>
 
@@ -457,12 +454,15 @@ function renderAttendance() {
       📚 ${total}
     </div>
 
-    <div style="display:flex;gap:8px;margin-top:6px;">
-      <button onclick="markPresentFor('${a.subject}')">✅ Present</button>
-      <button onclick="markAbsentFor('${a.subject}')" class="secondary">
-        ❌ Absent
-      </button>
-    </div>
+    <div style="display:flex;gap:8px;margin-top:6px;flex-wrap:wrap;">
+  <button onclick="markPresentFor('${a.subject}')">✅ Present</button>
+  <button onclick="markAbsentFor('${a.subject}')" class="secondary">
+    ❌ Absent
+  </button>
+  <button onclick="deleteSubject('${a.subject}')" class="secondary">
+    🗑 Delete
+  </button>
+</div>
 
     <div style="font-size:12px;color:#9aa3ad;margin-top:6px">
       ${predictionText}
@@ -474,9 +474,29 @@ function renderAttendance() {
   });
 }
 // ===== START =====
-if (USER_ID) loadData();
-
 // ===== START =====
 window.addEventListener("DOMContentLoaded", () => {
-  showAuth(); // always show login first
+  if (USER_ID) {
+    showApp();
+    loadData();
+  } else {
+    showAuth();
+  }
 });
+function openSubject(subject) {
+  const encoded = encodeURIComponent(subject);
+  window.location.href = `subject.html?name=${encoded}`;
+}
+
+function deleteSubject(subject) {
+  const ok = confirm(`Delete ${subject}? This cannot be undone.`);
+
+  if (!ok) return;
+
+  db.attendance = db.attendance.filter(
+    a => a.subject.toLowerCase() !== subject.toLowerCase()
+  );
+
+  saveData();
+  render();
+}

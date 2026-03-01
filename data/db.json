@@ -18,18 +18,7 @@
     },
     "aadamaftab1126@gmail.com": {
       "deadlines": [],
-      "attendance": [
-        {
-          "subject": "calculus",
-          "present": 15,
-          "total": 20
-        },
-        {
-          "subject": "CN",
-          "present": 48,
-          "total": 64
-        }
-      ]
+      "attendance": []
     }
   },
   "accounts": {
