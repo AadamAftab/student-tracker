@@ -163,6 +163,33 @@ function deleteDeadline(taskName) {
 }
 
 // ===== ATTENDANCE HELPERS =====
+function markPresentFor(subject) {
+  let record = db.attendance.find(
+    a => a.subject.toLowerCase() === subject.toLowerCase()
+  );
+
+  if (!record) return;
+
+  record.present++;
+  record.total++;
+
+  saveData();
+  render();
+}
+
+function markAbsentFor(subject) {
+  let record = db.attendance.find(
+    a => a.subject.toLowerCase() === subject.toLowerCase()
+  );
+
+  if (!record) return;
+
+  record.total++;
+
+  saveData();
+  render();
+}
+
 function classesNeededToReach(p, t, target = 0.75) {
   if (t === 0) return 0;
   const need = (target * t - p) / (1 - target);
@@ -245,8 +272,64 @@ function getSortedDeadlines() {
 }
 
 // ===== RENDER =====
+function renderAttendanceDashboard() {
+  const box = document.getElementById("attendanceDashboard");
+  if (!box) return;
+
+  if (!db.attendance || db.attendance.length === 0) {
+    box.innerHTML = "<h3>📊 Attendance Overview</h3><p>No data yet</p>";
+    return;
+  }
+
+  let totalPresent = 0;
+  let totalClasses = 0;
+
+  db.attendance.forEach(a => {
+    totalPresent += a.present;
+    totalClasses += a.total;
+  });
+
+  const overall = totalClasses
+    ? ((totalPresent / totalClasses) * 100).toFixed(1)
+    : 0;
+
+  const risk =
+    overall < 75
+      ? "🔴 At Risk"
+      : overall < 85
+      ? "🟡 Watch"
+      : "🟢 Safe";
+
+  box.innerHTML = `
+    <h3>📊 Attendance Overview</h3>
+
+    <div style="font-size:22px;font-weight:700;margin:6px 0;">
+      ${overall}%
+    </div>
+
+    <div style="
+      height:10px;
+      background:#222;
+      border-radius:999px;
+      overflow:hidden;
+      margin-bottom:8px;
+    ">
+      <div style="
+        width:${overall}%;
+        height:100%;
+        background:linear-gradient(90deg,#6c8cff,#9b6cff);
+      "></div>
+    </div>
+
+    <div style="color:#9aa3ad;font-size:13px;">
+      Status: ${risk}
+    </div>
+  `;
+}
+
 function render() {
   renderDeadlines();
+  renderAttendanceDashboard();
   renderAttendance();
 }
 
@@ -362,18 +445,30 @@ function renderAttendance() {
     }
 
     li.innerHTML = `
-      <div>
-        <strong>${a.subject}</strong> — ${percent}%
-        <div style="font-size:12px;color:#9aa3ad;margin-top:4px">
-          ✅ Attended: ${attended} &nbsp; • &nbsp;
-          ❌ Missed: ${missed} &nbsp; • &nbsp;
-          📚 Total: ${total}
-        </div>
-        <div style="font-size:12px;color:#9aa3ad;margin-top:4px">
-          ${predictionText}
-        </div>
-      </div>
-    `;
+  <div style="width:100%">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <strong>${a.subject}</strong>
+      <span>${percent}%</span>
+    </div>
+
+    <div style="font-size:12px;color:#9aa3ad;margin:6px 0;">
+      ✅ ${attended} &nbsp; • &nbsp;
+      ❌ ${missed} &nbsp; • &nbsp;
+      📚 ${total}
+    </div>
+
+    <div style="display:flex;gap:8px;margin-top:6px;">
+      <button onclick="markPresentFor('${a.subject}')">✅ Present</button>
+      <button onclick="markAbsentFor('${a.subject}')" class="secondary">
+        ❌ Absent
+      </button>
+    </div>
+
+    <div style="font-size:12px;color:#9aa3ad;margin-top:6px">
+      ${predictionText}
+    </div>
+  </div>
+`;
 
     list.appendChild(li);
   });
