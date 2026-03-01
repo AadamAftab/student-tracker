@@ -83,6 +83,7 @@ async function login(email, password) {
 
   if (data.userId) {
     setUser(data.userId);
+    showApp();
     await loadData();
   }
 
@@ -381,9 +382,6 @@ function renderAttendance() {
 if (USER_ID) loadData();
 
 // ===== START =====
-if (USER_ID) {
-  showApp();
-  loadData();
-} else {
-  showAuth();
-}
+window.addEventListener("DOMContentLoaded", () => {
+  showAuth(); // always show login first
+});
