@@ -1,0 +1,35 @@
+{
+  "users": {
+    "guest-76b37dfb-e406-414a-a97f-9fb562a7d206": {
+      "deadlines": [
+        {
+          "task": "CA",
+          "datetime": "2026-03-01T15:36",
+          "done": false
+        }
+      ],
+      "attendance": [
+        {
+          "subject": "CN",
+          "present": 2,
+          "total": 3
+        }
+      ]
+    },
+    "aadamaftab1126@gmail.com": {
+      "deadlines": [],
+      "attendance": [
+        {
+          "subject": "calculus",
+          "present": 1,
+          "total": 1
+        }
+      ]
+    }
+  },
+  "accounts": {
+    "aadamaftab1126@gmail.com": {
+      "password": "$2b$10$obGtQzsQ5mCGpLe3L/ky7O.5SKCeRXF/QNw/ldIzFyovEfDLnHaLq"
+    }
+  }
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ===== AUTH SCREEN ===== -->
+  <div id="authScreen" class="auth-screen">
+    <div class="auth-card">
+      <h1>🎓 Student Tracker</h1>
+
+      <input id="emailInput" type="email" placeholder="Email" />
+      <input id="passwordInput" type="password" placeholder="Password" />
+
+      <button onclick="handleLogin()">Login</button>
+      <button class="secondary" onclick="handleSignup()">Create Account</button>
+
+      <p id="authMsg" class="auth-msg"></p>
+    </div>
+  </div>
+
+  <!-- ===== MAIN APP ===== -->
+  <div id="appScreen" class="app" style="display:none;">
+    <button id="logoutBtn" onclick="logoutUser()">Logout</button>
+    <h1>🎓 Student Tracker</h1>
+
+    <!-- ===== DEADLINES ===== -->
+    <div class="section">
+      <h2>📅 Deadlines</h2>
+
+      <input id="taskInput" placeholder="Assignment name" />
+      <input id="dateInput" type="datetime-local" />
+      <button onclick="addDeadline()">Add</button>
+
+      <ul id="deadlineList"></ul>
+    </div>
+
+    <!-- ===== ATTENDANCE ===== -->
+    <div class="section">
+      <h2>📊 Attendance</h2>
+
+      <input id="subjectInput" placeholder="Subject" />
+      <button onclick="markPresent()">Present</button>
+      <button onclick="markAbsent()">Absent</button>
+
+      <ul id="attendanceList"></ul>
+    </div>
+
+  </div>
+
+  <!-- ✅ SCRIPT MUST BE LAST AND ONLY ONCE -->
+  <script src="script.js"></script>
+
+</body>
+</html>
