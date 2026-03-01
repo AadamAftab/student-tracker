@@ -4,20 +4,22 @@ function logoutUser() {
   USER_ID = null;
   showAuth();
 }
+/*
+removes login session when logged out shows the login page*/
 
 function showApp() {
-  document.getElementById("authScreen").style.display = "none";
-  document.getElementById("appScreen").style.display = "block";
+  document.getElementById("authScreen").style.display = "none";//shows nothing on the webpage, space reserved also removed
+  document.getElementById("appScreen").style.display = "block";//show it normally
 }
 
 function showAuth() {
-  document.getElementById("authScreen").style.display = "flex";
+  document.getElementById("authScreen").style.display = "flex";//show element using flexblox layout
   document.getElementById("appScreen").style.display = "none";
 }
 
 // ===== BUTTON HANDLERS =====
 async function handleLogin() {
-  const email = document.getElementById("emailInput").value.trim();
+  const email = document.getElementById("emailInput").value.trim();//get value 
   const password = document.getElementById("passwordInput").value.trim();
   const msg = document.getElementById("authMsg");
 
@@ -475,14 +477,11 @@ function renderAttendance() {
 }
 // ===== START =====
 // ===== START =====
+// ===== START =====
 window.addEventListener("DOMContentLoaded", () => {
-  if (USER_ID) {
-    showApp();
-    loadData();
-  } else {
-    showAuth();
-  }
+  showAuth(); // always show login first
 });
+
 function openSubject(subject) {
   const encoded = encodeURIComponent(subject);
   window.location.href = `subject.html?name=${encoded}`;

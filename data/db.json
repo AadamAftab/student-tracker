@@ -18,7 +18,13 @@
     },
     "aadamaftab1126@gmail.com": {
       "deadlines": [],
-      "attendance": []
+      "attendance": [
+        {
+          "subject": "CN",
+          "present": 3,
+          "total": 4
+        }
+      ]
     }
   },
   "accounts": {
