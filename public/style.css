@@ -2,7 +2,6 @@
    AWARD-WINNING STUDENT TRACKER UI
    ========================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap');
 
 :root {
@@ -42,9 +41,22 @@
 
 h3.watermark {
   text-align: center;
-  color: red;
+  margin-top: 10px;
+  margin-bottom: 20px;
   font-size: 25px;
   font-weight: 100;
+  letter-spacing: 2px;
+}
+
+h3.watermark a {
+  color: #ff4d4d;
+  /* Bright red to match your theme */
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+h3.watermark a:hover {
+  text-shadow: 0 0 15px rgba(255, 77, 77, 0.6);
 }
 
 h1.inpage {
@@ -58,7 +70,6 @@ h1.inpage {
     transform: rotate(360deg);
   }
 }
-
 
 * {
   margin: 0;
@@ -127,12 +138,11 @@ h4 {
 
 .auth-card h1 {
   font-family: 'Montserrat', sans-serif;
-  /* <--- Add your custom font here */
   font-size: 2.2rem;
   margin-bottom: 2rem;
-  background: linear-gradient(to right, #fff, #a5b4fc);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  /* Super Bright Solid White + Premium Indigo Glow */
+  color: #ffffff;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.4), 0 0 25px rgba(99, 102, 241, 0.5);
 }
 
 .auth-msg {
@@ -239,11 +249,10 @@ button.secondary:hover {
 
 .app>div:first-child h1 {
   font-family: 'Montserrat', sans-serif;
-  /* <--- Add your custom font here */
   font-size: 1.8rem;
-  background: linear-gradient(90deg, #fff, #c4b5fd);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  /* Super Bright Solid White + Premium Indigo Glow */
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3), 0 0 20px rgba(99, 102, 241, 0.4);
 }
 
 
