@@ -13,7 +13,7 @@
   <!-- ===== AUTH SCREEN ===== -->
   <div id="authScreen" class="auth-screen">
     <div class="auth-card">
-      <h1 style="color: cyan;">🎓 Student Tracker</h1>
+      <h1>🎓 Student Tracker</h1>
       <input id="emailInput" type="email" placeholder="Email" />
       <input id="passwordInput" type="password" placeholder="Password" />
       <button onclick="handleLogin()">Login</button>
@@ -38,6 +38,15 @@
         <button onclick="addDeadline()">Add</button>
       </div>
       <ul id="deadlineList"></ul>
+    </div>
+
+    <!-- ===== UPCOMING CONTESTS ===== -->
+    <div class="section" id="contestsSection">
+      <h2>🚀 Upcoming Contests</h2>
+      <div style="font-size: 14px; color: #8b92a5; margin-bottom: 15px;">Live feed from LeetCode & Codeforces</div>
+      <ul id="contestList">
+        <li style="justify-content: center; color: #8b92a5;">Loading contests...</li>
+      </ul>
     </div>
 
     <!-- ===== CGPA PREDICTOR ===== -->

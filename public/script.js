@@ -217,7 +217,7 @@ function renderAttendance() {
     li.innerHTML = `
       <div style="width:100%">
         <div style="display:flex;justify-content:space-between;align-items:center;">
-          <strong onclick="openSubject('${safeSubject}')" style="cursor:pointer">${a.subject}</strong>
+          <strong onclick="openSubject('${safeSubject}')" style="cursor:pointer; text-decoration:underline;">${a.subject}</strong>
           <span>${percent}%</span>
         </div>
         <div style="font-size:12px;color:#9aa3ad;margin:6px 0;">✅ ${attended} • ❌ ${missed} • 📚 ${total}</div>
@@ -236,6 +236,99 @@ function renderAttendance() {
 function openSubject(subject) {
   const encoded = encodeURIComponent(subject);
   window.location.href = `subject.html?name=${encoded}`;
+}
+
+// ==========================================
+// CONTEST TRACKER (LeetCode & Codeforces)
+// ==========================================
+async function loadContests() {
+  const list = document.getElementById("contestList");
+  if (!list) return;
+
+  try {
+    let upcoming = [];
+
+    // 1. Fetch Codeforces
+    try {
+      const cfRes = await fetch("https://codeforces.com/api/contest.list");
+      const cfData = await cfRes.json();
+      if (cfData.status === "OK") {
+        const cfUpcoming = cfData.result
+          .filter(c => c.phase === "BEFORE")
+          .map(c => ({
+            name: c.name,
+            platform: "Codeforces",
+            time: (c.startTimeSeconds || 0) * 1000,
+            url: "https://codeforces.com/contests"
+          }));
+        upcoming.push(...cfUpcoming);
+      }
+    } catch (e) {
+      console.warn("Could not load Codeforces", e);
+    }
+
+    // 2. Fetch Kontests API (LeetCode, etc)
+    try {
+      const lcRes = await fetch("https://kontests.net/api/v1/leet_code");
+      const lcData = await lcRes.json();
+      const lcUpcoming = lcData
+        .filter(c => c.status === "BEFORE")
+        .map(c => ({
+          name: c.name,
+          platform: "LeetCode",
+          time: new Date(c.start_time).getTime(),
+          url: c.url
+        }));
+      upcoming.push(...lcUpcoming);
+    } catch (e) {
+      console.warn("Could not load LeetCode", e);
+    }
+
+    // Sort all contests by closest time
+    upcoming.sort((a, b) => a.time - b.time);
+
+    // Render to UI
+    list.innerHTML = "";
+
+    if (upcoming.length === 0) {
+      list.innerHTML = `<li style="justify-content: center; color: #8b92a5;">No upcoming contests found.</li>`;
+      return;
+    }
+
+    // Show top 5 upcoming contests
+    upcoming.slice(0, 5).forEach(c => {
+      const li = document.createElement("li");
+      const date = new Date(c.time);
+      const isToday = new Date().toDateString() === date.toDateString();
+      const timeStr = isToday ? `Today, ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : date.toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+      const platformColor = c.platform === "LeetCode" ? "#f59e0b" : "#3b82f6";
+
+      li.innerHTML = `
+        <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 15px;">
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <strong style="font-family: 'Outfit', sans-serif; font-size: 1.05rem;">${c.name}</strong>
+            <span style="font-size: 0.85rem; color: ${platformColor}; font-weight: 600;">${c.platform}</span>
+          </div>
+          <div style="text-align: right; display: flex; flex-direction: column; gap: 6px;">
+            <span style="font-size: 0.9rem; color: #cbd5e1;">${timeStr}</span>
+            <a href="${c.url}" target="_blank" style="font-size: 0.8rem; background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 6px; color: white; text-decoration: none;">View</a>
+          </div>
+        </div>
+      `;
+
+      // If contest is within 24 hours, highlight it
+      if (c.time - Date.now() < 86400000 && c.time > Date.now()) {
+        li.classList.add("good-attendance");
+      }
+
+      list.appendChild(li);
+    });
+
+  } catch (error) {
+    list.innerHTML = `<li style="justify-content: center; color: #ef4444;">Failed to load contests</li>`;
+    console.error(error);
+  }
 }
 
 let db = { deadlines: [], attendance: [], cgpaRecords: [] };
@@ -307,9 +400,10 @@ window.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("authScreen").style.display = "none";
     document.getElementById("appScreen").style.display = "block";
     await loadData();
+    // Load live contests once authenticated and dashboard loads
+    loadContests();
   } else {
     document.getElementById("authScreen").style.display = "flex";
     document.getElementById("appScreen").style.display = "none";
   }
 });
-
