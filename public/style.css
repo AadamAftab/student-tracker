@@ -1,242 +1,464 @@
-/* ================= HOT MODERN THEME ================= */
+/* =========================================
+   AWARD-WINNING STUDENT TRACKER UI
+   ========================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap');
 
 :root {
-  --bg: #0b0f17;
-  --card: rgba(255, 255, 255, 0.05);
-  --border: rgba(255, 255, 255, 0.08);
-  --text: #eaf2ff;
-  --muted: #9fb0d0;
+  /* Core Colors */
+  --bg-dark: #090a0f;
+  --bg-card: rgba(18, 20, 28, 0.6);
+  --text-main: #ffffff;
+  --text-muted: #8b92a5;
 
-  --accent: #6c8cff;
-  --accent2: #9b6cff;
-  --danger: #ff6b6b;
-  --success: #22c55e;
+  /* Vibrant Accents */
+  --accent-primary: #6366f1;
+  /* Indigo */
+  --accent-secondary: #a855f7;
+  /* Purple */
+  --accent-glow: rgba(99, 102, 241, 0.4);
 
-  --glow: 0 0 25px rgba(108, 140, 255, 0.35);
+  /* Status Colors */
+  --success: #10b981;
+  --success-bg: rgba(16, 185, 129, 0.1);
+  --warning: #f59e0b;
+  --warning-bg: rgba(245, 158, 11, 0.1);
+  --danger: #ef4444;
+  --danger-bg: rgba(239, 68, 68, 0.1);
+
+  /* Borders & Shadows */
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --border-glow: rgba(255, 255, 255, 0.15);
+  --shadow-main: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 20px var(--accent-glow);
+
+  /* Variables */
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
-  font-family: Inter, system-ui, -apple-system, sans-serif;
 }
 
 body {
-  margin: 0;
-  background:
-    radial-gradient(circle at 20% 20%, #16213e 0%, transparent 40%),
-    radial-gradient(circle at 80% 0%, #1a1f3a 0%, transparent 40%),
-    var(--bg);
-  color: var(--text);
+  background-color: var(--bg-dark);
+  background-image:
+    radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.15), transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(168, 85, 247, 0.15), transparent 25%);
+  color: var(--text-main);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-/* ================= APP ================= */
-
-.app {
-  max-width: 920px;
-  margin: 0 auto;
-  padding: 28px 20px 48px;
-  position: relative;
-}
-
-/* ================= HEADER ================= */
-
-h1 {
-  font-size: 34px;
-  margin: 0 0 26px 0;
-  font-weight: 800;
-  letter-spacing: -0.6px;
-
-  background: linear-gradient(90deg, #fff, white);
-  -webkit-background-clip: text;
-}
-
-h2 {
-  margin: 0 0 14px 0;
-  font-size: 20px;
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Outfit', sans-serif;
   font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
-/* ================= GLASS CARDS ================= */
+/* =========================================
+   AUTHENTICATION UI (LOGIN SCREEN)
+   ========================================= */
 
-.section {
-  background: var(--card);
-  backdrop-filter: blur(18px);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 20px;
-  margin-bottom: 22px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.45);
-  transition: all 0.25s ease;
+.auth-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  animation: fadeIn 0.8s ease-out forwards;
 }
 
-.section:hover {
-  transform: translateY(-3px) scale(1.01);
-  box-shadow:
-    0 30px 80px rgba(0,0,0,0.6),
-    var(--glow);
+.auth-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-main);
+  padding: 3rem;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
 }
 
-/* ================= INPUTS ================= */
+.auth-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+}
 
-input {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--border);
-  color: var(--text);
-  padding: 12px 14px;
-  border-radius: 12px;
-  margin-right: 8px;
+.auth-card h1 {
+  font-size: 2.2rem;
+  margin-bottom: 2rem;
+  background: linear-gradient(to right, #fff, #a5b4fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.auth-msg {
+  margin-top: 1.5rem;
+  color: var(--accent-secondary);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* =========================================
+   INPUTS & BUTTONS
+   ========================================= */
+
+input,
+select {
+  width: 100%;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-md);
+  color: var(--text-main);
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  transition: var(--transition);
   outline: none;
-  transition: all 0.2s ease;
+}
+
+input:focus,
+select:focus {
+  border-color: var(--accent-primary);
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
 }
 
 input::placeholder {
-  color: var(--muted);
+  color: #6b7280;
 }
 
-input:focus {
-  border-color: var(--accent);
-  box-shadow: var(--glow);
+select option {
+  background: var(--bg-dark);
+  color: var(--text-main);
 }
-
-/* ================= BUTTONS ================= */
 
 button {
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  color: white;
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
   border: none;
-  padding: 12px 18px;
-  border-radius: 12px;
-  cursor: pointer;
+  border-radius: var(--radius-md);
+  color: white;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.05rem;
   font-weight: 600;
-  transition: all 0.18s ease;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow-glow);
 }
 
 button:hover {
   transform: translateY(-2px);
-  box-shadow: var(--glow);
+  box-shadow: 0 8px 25px rgba(168, 85, 247, 0.5);
+  filter: brightness(1.1);
 }
 
 button:active {
   transform: translateY(0);
 }
 
-/* secondary */
-
-.secondary {
+button.secondary {
   background: transparent;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-glass);
+  box-shadow: none;
+  color: var(--text-muted);
 }
 
-/* ================= LIST ================= */
+button.secondary:hover {
+  color: var(--text-main);
+  border-color: var(--border-glow);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* =========================================
+   MAIN DASHBOARD LAYOUT
+   ========================================= */
+
+.app {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 2rem;
+  animation: slideUp 0.6s ease-out forwards;
+}
+
+/* Top App Header / Navbar */
+.app>div:first-child {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+  padding: 1.2rem 2rem;
+  box-shadow: var(--shadow-main);
+}
+
+.app>div:first-child h1 {
+  font-size: 1.8rem;
+  background: linear-gradient(90deg, #fff, #c4b5fd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.app>div:first-child button {
+  width: auto;
+  margin-bottom: 0;
+  padding: 0.6rem 1.5rem;
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--danger);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  box-shadow: none;
+}
+
+.app>div:first-child button:hover {
+  background: var(--danger);
+  color: white;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+}
+
+/* =========================================
+   CONTENT SECTIONS (CARDS)
+   ========================================= */
+
+.section {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  margin-top: 2rem;
+  box-shadow: var(--shadow-main);
+  transition: var(--transition);
+}
+
+.section:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
+}
+
+.section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Flex rows for inputs inside cards */
+.section>div[style*="display:flex"] {
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.section>div[style*="display:flex"]>input,
+.section>div[style*="display:flex"]>select {
+  margin-bottom: 0;
+  flex: 1;
+  min-width: 150px;
+}
+
+.section>div[style*="display:flex"]>button {
+  width: auto;
+  margin-bottom: 0;
+  padding: 1rem 2rem;
+}
+
+/* =========================================
+   LIST ITEMS (TASKS, CGPA, ATTENDANCE)
+   ========================================= */
 
 ul {
   list-style: none;
-  padding: 0;
-  margin-top: 14px;
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
 }
 
 li {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--border);
-  padding: 14px 16px;
-  border-radius: 14px;
-  margin-bottom: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-glass);
+  padding: 1.2rem;
+  border-radius: var(--radius-md);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
-  transition: all 0.2s ease;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--accent-primary);
+  opacity: 0.5;
+  transition: var(--transition);
 }
 
 li:hover {
-  background: rgba(255,255,255,0.06);
+  background: rgba(255, 255, 255, 0.03);
+  transform: scale(1.01);
+  border-color: var(--border-glow);
 }
 
-/* ================= STATUS ================= */
-
-.overdue {
-  border-color: var(--danger);
-  box-shadow: 0 0 18px rgba(255,107,107,0.35);
+li:hover::before {
+  opacity: 1;
 }
 
-.low-attendance {
-  border-color: var(--danger);
+li span {
+  font-weight: 500;
 }
 
-.good-attendance {
-  border-color: var(--success);
+/* Status variants for list items */
+li.overdue::before,
+li.low-attendance::before {
+  background: var(--danger);
+  opacity: 1;
 }
 
-/* ================= AUTH ================= */
-
-.auth-screen {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+li.overdue,
+li.low-attendance {
+  background: var(--danger-bg);
+  border-color: rgba(239, 68, 68, 0.2);
 }
 
-.auth-card {
-  width: 340px;
-  background: var(--card);
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--border);
-  padding: 32px;
-  border-radius: 24px;
-  box-shadow:
-    0 40px 100px rgba(0,0,0,0.6),
-    var(--glow);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+li.good-attendance::before {
+  background: var(--success);
+  opacity: 1;
 }
 
-.auth-msg {
-  font-size: 12px;
-  color: var(--muted);
-  min-height: 16px;
-  text-align: center;
+li.good-attendance {
+  background: var(--success-bg);
+  border-color: rgba(16, 185, 129, 0.2);
 }
 
-/* ================= LOGOUT ================= */
+/* Tiny action buttons inside lists */
+li button {
+  width: auto;
+  padding: 0.5rem 0.8rem;
+  margin: 0;
+  font-size: 0.85rem;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+  box-shadow: none;
+  transition: var(--transition);
+}
 
-#logoutBtn {
-  position: absolute;
-  top: 26px;
-  right: 20px;
+li button:hover {
+  background: var(--danger);
+  color: white;
+  transform: scale(1.05);
+}
+
+/* Special styling for attendance action buttons so they look distinct */
+li button[onclick*="Present"] {
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+li button[onclick*="Present"]:hover {
+  background: var(--success);
+  color: white;
+}
+
+li button.secondary {
   background: transparent;
-  border: 1px solid var(--border);
 }
 
-/* ================= MOBILE ================= */
+/* =========================================
+   ANIMATIONS
+   ========================================= */
 
-@media (max-width: 640px) {
-  .app {
-    padding: 18px 14px 36px;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
 
-  h1 {
-    font-size: 26px;
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
 
-  input {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Dashboard Specific UI Overrides */
+#cgpaResult {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  padding: 1.5rem;
+  border-radius: var(--radius-md);
+}
+
+#attendanceDashboard {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 1.5rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-glass);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .section {
+    padding: 1.5rem;
+  }
+
+  .section>div[style*="display:flex"] {
+    flex-direction: column;
+  }
+
+  .section>div[style*="display:flex"]>input,
+  .section>div[style*="display:flex"]>select,
+  .section>div[style*="display:flex"]>button {
     width: 100%;
-    margin: 0 0 8px 0;
-  }
-
-  button {
-    width: 100%;
-    margin-bottom: 8px;
   }
 
   li {
     flex-direction: column;
     align-items: flex-start;
+    gap: 1rem;
   }
 
-  #logoutBtn {
-    position: static;
+  li>div[style*="display:flex"] {
     width: 100%;
-    margin-bottom: 14px;
+    justify-content: flex-start !important;
   }
 }

@@ -2,7 +2,7 @@ let USER_ID = localStorage.getItem("studentTrackerUser");
 let db = {};
 
 function goBack() {
-  window.location.href = "/";
+  window.location.href = "index.html";
 }
 
 function getSubjectFromURL() {
@@ -11,11 +11,12 @@ function getSubjectFromURL() {
 }
 
 async function loadData() {
-  if (!USER_ID) return;
-
+  if (!USER_ID) {
+    window.location.href = "index.html"; // Protect unlogged users
+    return;
+  }
   const res = await fetch(`/api/data/${USER_ID}`);
   db = await res.json();
-
   renderSubject();
 }
 
@@ -28,7 +29,9 @@ function renderSubject() {
 
   title.textContent = `📘 ${subject}`;
 
-  const record = db.attendance.find(
+  // Use || [] to prevent crashes if it doesn't exist yet
+  const attendanceData = db.attendance || [];
+  const record = attendanceData.find(
     a => a.subject.toLowerCase() === subject.toLowerCase()
   );
 
@@ -50,25 +53,30 @@ function renderSubject() {
 
   const risk =
     percent < 75 ? "🔴 At Risk" :
-    percent < 85 ? "🟡 Watch" :
-    "🟢 Safe";
+      percent < 85 ? "🟡 Watch" :
+        "🟢 Safe";
 
   box.innerHTML = `
     <h3>${percent}% — ${risk}</h3>
-
-    <p>✅ Attended: ${p}</p>
-    <p>❌ Missed: ${missed}</p>
-    <p>📚 Total: ${t}</p>
-
-    <hr style="opacity:.2;margin:12px 0;">
-
-    <p>🎯 Can bunk: <b>${bunks}</b></p>
-    <p>🚨 Need to attend: <b>${need}</b></p>
+    <div style="font-size: 16px; margin: 16px 0;">
+        <p>✅ Attended: ${p}</p>
+        <p>❌ Missed: ${missed}</p>
+        <p>📚 Total: ${t}</p>
+    </div>
 
     <hr style="opacity:.2;margin:12px 0;">
 
-    <p>🔮 If miss next → ${nextMiss}%</p>
-    <p>🔮 If attend next → ${nextAttend}%</p>
+    <div style="font-size: 16px; margin: 16px 0;">
+        <p>🎯 Can bunk: <b>${bunks}</b></p>
+        <p>🚨 Need to attend: <b>${need}</b></p>
+    </div>
+
+    <hr style="opacity:.2;margin:12px 0;">
+
+    <div style="font-size: 15px; color: #aaa;">
+        <p>🔮 If miss next → ${nextMiss}%</p>
+        <p>🔮 If attend next → ${nextAttend}%</p>
+    </div>
   `;
 }
 

@@ -1,20 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Subject</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Subject Dashboard</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
+  <div class="app">
+    <div class="section">
+      <button onclick="goBack()" class="btn btn-secondary" style="margin-bottom: 20px;">← Back to App</button>
+      <h2 id="subjectTitle" style="color: white; font-size: 2rem;">📘 Loading...</h2>
 
-<div class="app">
-  <button onclick="goBack()" class="secondary">← Back</button>
-  <h1 id="subjectTitle">Subject</h1>
-
-  <div id="subjectStats" class="section"></div>
-</div>
-
-<script src="subject.js"></script>
+      <div id="subjectStats" class="glass-card" style="padding: 20px; margin-top: 16px;">
+        Loading stats...
+      </div>
+    </div>
+  </div>
+  <!-- Load the specific subject logic -->
+  <script src="subject.js"></script>
 </body>
+
 </html>

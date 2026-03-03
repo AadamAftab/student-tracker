@@ -33,7 +33,7 @@ app.post("/api/signup", async (req, res) => {
   const hash = await bcrypt.hash(password, 10);
 
   db.accounts[email] = { password: hash };
-  db.users[email] = { deadlines: [], attendance: [] };
+  db.users[email] = { deadlines: [], attendance: [], cgpaRecords: [] };
 
   writeDB(db);
   res.json({ status: "created" });
@@ -63,7 +63,7 @@ app.get("/api/data/:userId", (req, res) => {
   const db = readDB();
   const userId = req.params.userId;
 
-  res.json(db.users[userId] || { deadlines: [], attendance: [] });
+  res.json(db.users[userId] || { deadlines: [], attendance: [], cgpaRecords: [], });
 });
 
 app.post("/api/data/:userId", (req, res) => {
