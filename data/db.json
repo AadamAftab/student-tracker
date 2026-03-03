@@ -26,11 +26,19 @@
         }
       ],
       "cgpaRecords": []
+    },
+    "kabuli@gmail.com": {
+      "deadlines": [],
+      "attendance": [],
+      "cgpaRecords": []
     }
   },
   "accounts": {
     "aadamaftab1126@gmail.com": {
       "password": "$2b$10$obGtQzsQ5mCGpLe3L/ky7O.5SKCeRXF/QNw/ldIzFyovEfDLnHaLq"
+    },
+    "kabuli@gmail.com": {
+      "password": "$2b$10$ySrVUBsCYFojEDoWqfvkYOjITo2xW7TOsg.wVoBjhNhR8I6SrgUki"
     }
   }
 }

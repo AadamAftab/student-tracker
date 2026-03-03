@@ -397,10 +397,24 @@ async function handleSignup() {
   const password = document.getElementById("passwordInput").value.trim();
   const msg = document.getElementById("authMsg");
   msg.textContent = "Creating account...";
+
   const res = await signup(email, password);
-  if (res.status === "created") { msg.textContent = "Account created! You can login."; }
-  else { msg.textContent = res.error || "Signup failed"; }
+  if (res.status === "created") {
+    msg.textContent = "Account created! Logging you in...";
+
+    // AUTO LOGIN IMMEDIATELY AFTER SIGNUP!
+    const loginRes = await login(email, password);
+    if (loginRes.userId) {
+      document.getElementById("authScreen").style.display = "none";
+      document.getElementById("appScreen").style.display = "block";
+      loadContests(); // Load contests immediately on the dashboard
+    }
+  }
+  else {
+    msg.textContent = res.error || "Signup failed";
+  }
 }
+
 
 async function signup(email, password) {
   const res = await fetch("/api/signup", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email, password }) });
