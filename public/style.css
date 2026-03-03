@@ -3,6 +3,7 @@
    ========================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap');
 
 :root {
   /* Core Colors */
@@ -38,6 +39,26 @@
   --radius-sm: 8px;
   --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+h3.watermark {
+  text-align: center;
+  color: red;
+  font-size: 25px;
+  font-weight: 100;
+}
+
+h1.inpage {
+  color: white;
+  font-weight: 200;
+  font-size: 200px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 
 * {
   margin: 0;
@@ -105,6 +126,8 @@ h4 {
 }
 
 .auth-card h1 {
+  font-family: 'Montserrat', sans-serif;
+  /* <--- Add your custom font here */
   font-size: 2.2rem;
   margin-bottom: 2rem;
   background: linear-gradient(to right, #fff, #a5b4fc);
@@ -215,11 +238,14 @@ button.secondary:hover {
 }
 
 .app>div:first-child h1 {
+  font-family: 'Montserrat', sans-serif;
+  /* <--- Add your custom font here */
   font-size: 1.8rem;
   background: linear-gradient(90deg, #fff, #c4b5fd);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
 
 .app>div:first-child button {
   width: auto;

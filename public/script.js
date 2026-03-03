@@ -241,37 +241,55 @@ function openSubject(subject) {
 // ==========================================
 // CONTEST TRACKER (LeetCode & Codeforces)
 // ==========================================
+// ==========================================
+// CONTEST TRACKER (Optimized Parallel Fetch)
+// ==========================================
+// ==========================================
+// CONTEST TRACKER
+// ==========================================
 async function loadContests() {
   const list = document.getElementById("contestList");
   if (!list) return;
 
+  // 👉 ADD THIS: Beautiful Animated Loading State
+  list.innerHTML = `
+    <li style="justify-content: center; background: transparent; border: none; padding: 2rem 0;">
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+        <svg fill="none" viewBox="0 0 24 24" style="width: 30px; height: 30px; animation: spin 1s linear infinite;">
+          <circle cx="12" cy="12" r="10" stroke="rgba(99, 102, 241, 0.2)" stroke-width="4"></circle>
+          <path fill="#6366f1" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span style="color: #cbd5e1; font-size: 0.95rem;">Fetching live contests...</span>
+      </div>
+    </li>
+  `;
   try {
     let upcoming = [];
 
-    // 1. Fetch Codeforces
-    try {
-      const cfRes = await fetch("https://codeforces.com/api/contest.list");
-      const cfData = await cfRes.json();
-      if (cfData.status === "OK") {
-        const cfUpcoming = cfData.result
-          .filter(c => c.phase === "BEFORE")
-          .map(c => ({
-            name: c.name,
-            platform: "Codeforces",
-            time: (c.startTimeSeconds || 0) * 1000,
-            url: "https://codeforces.com/contests"
-          }));
-        upcoming.push(...cfUpcoming);
-      }
-    } catch (e) {
-      console.warn("Could not load Codeforces", e);
+    // Fetch both APIs SIMULTANEOUSLY to cut load time in half
+    const [cfRes, lcRes] = await Promise.allSettled([
+      fetch("https://codeforces.com/api/contest.list").then(res => res.json()),
+      fetch("https://kontests.net/api/v1/leet_code").then(res => res.json())
+    ]);
+
+    // 1. Process Codeforces
+    if (cfRes.status === "fulfilled" && cfRes.value.status === "OK") {
+      const cfUpcoming = cfRes.value.result
+        .filter(c => c.phase === "BEFORE")
+        .map(c => ({
+          name: c.name,
+          platform: "Codeforces",
+          time: (c.startTimeSeconds || 0) * 1000,
+          url: "https://codeforces.com/contests"
+        }));
+      upcoming.push(...cfUpcoming);
+    } else {
+      console.warn("Could not load Codeforces", cfRes.reason);
     }
 
-    // 2. Fetch Kontests API (LeetCode, etc)
-    try {
-      const lcRes = await fetch("https://kontests.net/api/v1/leet_code");
-      const lcData = await lcRes.json();
-      const lcUpcoming = lcData
+    // 2. Process LeetCode
+    if (lcRes.status === "fulfilled" && Array.isArray(lcRes.value)) {
+      const lcUpcoming = lcRes.value
         .filter(c => c.status === "BEFORE")
         .map(c => ({
           name: c.name,
@@ -280,8 +298,8 @@ async function loadContests() {
           url: c.url
         }));
       upcoming.push(...lcUpcoming);
-    } catch (e) {
-      console.warn("Could not load LeetCode", e);
+    } else {
+      console.warn("Could not load LeetCode", lcRes.reason);
     }
 
     // Sort all contests by closest time
